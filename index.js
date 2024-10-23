@@ -21,3 +21,20 @@ if (!input)
 if (!fs.existsSync(input)) 
     throw new Error("Cannot find input file");
 
+//читання вмісту input файлу
+const fileContent = fs.readFileSync(input, "utf-8");
+
+//обробка JSON та фільтрація даних
+const data = JSON.parse(fileContent).filter((item) => item.value > 5 && item.ku > 13 );  //нема ku зі значенням 13 тому буде > 13
+
+//формування рядка з результатом
+const result = data.map((item) => item.value).join('\n');
+
+//запис у файл якщо вказано параметр output
+if (output){
+    fs.writeFileSync(output, result);
+}
+//виведення у консоль якщо активовано параметр display
+if (display){ 
+    console.log(result);
+}
